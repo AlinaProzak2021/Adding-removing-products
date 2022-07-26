@@ -1,26 +1,22 @@
 <template>
   <div id="app">
-    <formAddProduct></formAddProduct>
+    <home></home>
   </div>
 </template>
-
 <script>
- import formAddProduct from './components/form-Add.vue'
+import home from "./components/home.vue";
 export default {
   name: "App",
   components: {
-    formAddProduct
+    home,
   },
 };
 </script>
-
 <style lang ="scss">
+$font-stack: "Source Sans Pro", sans-serif;
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family: $font-stack;
+  width: 100%;
+  height: 100%;
 }
 </style>
