@@ -2,7 +2,7 @@
   <div class="add-product">
     <form
       class="add-product__form"
-      @submit.prevent="addProduct({ title, description, link, price })"
+      @submit.prevent="addProduct({   title, description, link, price })"
     >
       <div class="form__data">
         <div class="form__required">
@@ -140,6 +140,7 @@ $width: 284px;
 .add-product {
   .add-product__form {
     width: 332px;
+    margin-right: $margin;
     background: $background;
     box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04),
       0px 6px 10px rgba(0, 0, 0, 0.02);

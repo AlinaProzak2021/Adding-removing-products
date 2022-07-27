@@ -11,6 +11,9 @@ const store = createStore({
     mutations: {
         addProductCard(state, newCard) {
             state.productList.push(newCard)
+        },
+        deleteProductCard(state, index) {
+            state.productList.splice(index, 1)
         }
     }
 })

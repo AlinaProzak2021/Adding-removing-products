@@ -1,17 +1,17 @@
 <template>
   <div class="product">
     <div class="product__image">
-      <img :src="image" alt="изображение товара" />
+      <img :src="link" alt="изображение товара" />
     </div>
-    <div class="product__name">{{ name }}</div>
+    <div class="product__name">{{ title }}</div>
     <div class="product__description">{{ description }}</div>
-    <div class="product__price">{{ price }}</div>
+    <div class="product__price">{{ price }} руб. </div>
   </div>
 </template>
 <script>
 export default {
   name: "product-item",
-  props: ["name", "image", "description", "price"],
+  props: ["id","title", "link", "description", "price"],
   data() {
     return {};
   },

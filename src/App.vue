@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import home from "./components/formAddProduct.vue";
+import home from "./components/home.vue";
 export default {
   name: "App",
   components: {
