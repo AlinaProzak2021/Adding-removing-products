@@ -82,59 +82,44 @@ export default {
       description: "",
       link: "",
       price: "",
+      typeOfPrice: true,
       errors: {
         emptyField: "Поле является обязательным",
         incorrectValue: "Введите корректное значение ",
       },
-
-      isEmptyValues: [
-        {
-          isEmptyTitle: false,
-        },
-        { isEmptyLink: false },
-        { isEmptyPrice: false },
-      ],
-      typeOfPrice: true,
+      isEmptyValues: {
+        isEmptyTitle: false,
+        isEmptyLink: false,
+        isEmptyPrice: false,
+      },
     };
   },
   methods: {
     isEmptyField(productCard) {
       let isEmptyValue = false;
-      if (productCard.title == "") {
-        this.isEmptyValues.isEmptyTitle = true;
-        isEmptyValue = true;
-      }
-      if (productCard.link == "") {
-        this.isEmptyValues.isEmptyLink = true;
-        isEmptyValue = true;
-      }
-      if (productCard.price == "") {
-        this.isEmptyValues.isEmptyPrice = true;
-        isEmptyValue = true;
-      }
-      //   console.log(isEmptyValue);
+      productCard.title == ""
+        ? (this.isEmptyValues.isEmptyTitle = true) && (isEmptyValue = true)
+        : console.log("Пустое поле в title");
+      productCard.link == ""
+        ? (this.isEmptyValues.isEmptyLink = true && (isEmptyValue = true))
+        : console.log("Пустое поле в link ");
+      productCard.price == ""
+        ? (this.isEmptyValues.isEmptyPrice = true && (isEmptyValue = true))
+        : console.log("Пустое поле в price");
       return isEmptyValue;
     },
     priceIsNumb() {
-      if (this.isNumber) {
-        return true;
-      } else {
-        this.typeOfPrice = false;
-        console.log(this.typeOfPrice);
-        return false;
-      }
+      this.isNumber ? this.typeOfPrice : (this.typeOfPrice = false);
+      return this.typeOfPrice;
+    },
+    validation(product) {
+      return this.isEmptyField(product) === false && this.isNumber === true;
     },
     ...mapMutations(["addProductCard"]),
     addProduct(product) {
-      this.priceIsNumb();
-      console.log(product);
-      console.log(this.isNumber);
-      if (this.isEmptyField(product) === false && this.isNumber === true) {
-        this.addProductCard(product);
-        alert("Very Well!!");
-      } else {
-        console.log("данные не валидны");
-      }
+      this.validation(product)
+        ? this.addProductCard(product)
+        : console.log("Данные не валидны");
     },
   },
   computed: {
