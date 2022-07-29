@@ -2,7 +2,7 @@
   <div class="add-product">
     <form
       class="add-product__form"
-      @submit.prevent="addProduct({   title, description, link, price })"
+      @submit.prevent="addProduct({ title, description, link, price })"
     >
       <div class="form__data">
         <div class="form__required">
@@ -14,9 +14,10 @@
           type="text"
           class="form__input"
           placeholder="Введите наименование товара"
-          :class="{ form__input__error: isEmptyValues.isEmptyTitle }"
+          @blur="titleBlured = true"
+          :class="{ form__input__error: titleBlured && isEmptyTitle }"
         />
-        <span v-if="isEmptyValues.isEmptyTitle"> {{ errors.emptyField }}</span>
+        <span v-if="titleBlured && isEmptyTitle">Это поле обязательно!</span>
       </div>
 
       <div class="form__data">
@@ -38,10 +39,11 @@
           v-model="link"
           type="text"
           class="form__input"
-          :class="{ form__input__error: isEmptyValues.isEmptyLink }"
           placeholder="Введите ссылку"
+          @blur="linkBlured = true"
+          :class="{ form__input__error: linkBlured && isEmptyLink }"
         />
-        <span v-if="isEmptyValues.isEmptyLink"> {{ errors.emptyField }}</span>
+        <span v-if="linkBlured && isEmptyLink">Это поле обязательно!</span>
       </div>
       <div class="form__data">
         <div class="form__required">
@@ -53,19 +55,15 @@
           type="number"
           class="form__input"
           placeholder="Введите цену"
-          :class="{
-            form__input__error:
-              isEmptyValues.isEmptyPrice || typeOfPrice === false,
-          }"
+          @blur="priceBlured = true"
+          :class="{ form__input__error: priceBlured && isEmptyPrice }"
         />
-        <span v-if="isEmptyValues.isEmptyPrice"> {{ errors.emptyField }}</span>
-        <span v-else-if="typeOfPrice === false">
-          {{ errors.incorrectValue }}</span
-        >
+        <span v-if="priceBlured && isEmptyPrice">Это поле обязательно!</span>
       </div>
       <button
+        :disabled="isEmptyForm"
+        :class="{ form__button__allowed: isEmptyForm === false }"
         class="form__button"
-        :class="{ form__button__allowed: isСompletedForm === false }"
       >
         Добавить товар
       </button>
@@ -75,68 +73,49 @@
 <script>
 import { mapMutations } from "vuex";
 export default {
-  name: "add-product",
+  name: "form-add-product",
   data() {
     return {
       title: "",
+      titleBlured: false,
       description: "",
       link: "",
+      linkBlured: false,
       price: "",
-      typeOfPrice: true,
-      errors: {
-        emptyField: "Поле является обязательным",
-        incorrectValue: "Введите корректное значение ",
-      },
-      isEmptyValues: {
-        isEmptyTitle: false,
-        isEmptyLink: false,
-        isEmptyPrice: false,
-      },
+      priceBlured: false,
     };
   },
   methods: {
-    isEmptyField(productCard) {
-      let isEmptyValue = false;
-      productCard.title == ""
-        ? (this.isEmptyValues.isEmptyTitle = true) && (isEmptyValue = true)
-        : console.log("Пустое поле в title");
-      productCard.link == ""
-        ? (this.isEmptyValues.isEmptyLink = true && (isEmptyValue = true))
-        : console.log("Пустое поле в link ");
-      productCard.price == ""
-        ? (this.isEmptyValues.isEmptyPrice = true && (isEmptyValue = true))
-        : console.log("Пустое поле в price");
-      return isEmptyValue;
-    },
-    priceIsNumb() {
-      this.isNumber ? this.typeOfPrice : (this.typeOfPrice = false);
-      return this.typeOfPrice;
-    },
-    validation(product) {
-      return this.isEmptyField(product) === false && this.isNumber === true;
-    },
     ...mapMutations(["addProductCard"]),
     addProduct(product) {
-      this.validation(product)
-        ? this.addProductCard(product)
-        : console.log("Данные не валидны");
+      this.addProductCard(product);
+      this.titleBlured = false;
+      this.linkBlured = false;
+      this.priceBlured = false;
+      this.title = "";
+      (this.price = ""), (this.description = ""), (this.link = "");
     },
   },
   computed: {
-    isСompletedForm() {
-      return this.title && this.link && this.price === "";
+    isEmptyTitle() {
+      return this.title == "";
     },
-    isNumber() {
-      return typeof this.price === "number";
+    isEmptyLink() {
+      return this.link == "";
+    },
+    isEmptyPrice() {
+      return this.price == "";
+    },
+    isEmptyForm() {
+      return (this.price && this.link && this.title) == "";
     },
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 $margin: 16px;
 $background: #fffefb;
 $width: 284px;
-
 .add-product {
   .add-product__form {
     width: 332px;
