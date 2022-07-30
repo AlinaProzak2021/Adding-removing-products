@@ -61,9 +61,6 @@
           }"
         />
         <span v-if="priceBlured && isEmptyPrice">Это поле обязательно!</span>
-        <span v-if="isEmptyPrice == false && isNotNegativeNumber == true"
-          >Цена не может быть отрицательной</span
-        >
       </div>
       <button
         :disabled="isEmptyForm"
