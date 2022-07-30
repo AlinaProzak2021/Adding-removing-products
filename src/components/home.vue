@@ -4,7 +4,11 @@
       <div class="main-page__header">
         <div class="main-page__title">Добавление товара</div>
         <div class="main-page__sort">
-          <!-- <selectShort></selectShort> -->
+          <selectShort
+            :options="options"
+            @select="shorting"
+            :selected="selected"
+          ></selectShort>
         </div>
       </div>
       <div class="main-page__add-new-product">
@@ -29,42 +33,38 @@
 <script>
 import formAdd from "./formAddProduct.vue";
 import product from "./product.vue";
-// import selectShort from "./selectShort.vue";
+import selectShort from "./v-select.vue";
 import { mapMutations, mapState } from "vuex";
 export default {
   name: "Home-page",
   components: {
     formAdd,
     product,
+    selectShort,
   },
-  // data() {
-  //   return {
-  //     shorts: [
-  //       {
-  //         title: "По умолчанию",
-  //         short: 0,
-  //       },
-  //       {
-  //         title: "По возрастанию",
-  //         value: 1,
-  //       },
-  //       {
-  //         title: "По убыванию",
-  //         value: 2,
-  //       },
-  //       {
-  //         title: "По названию",
-  //         value: 3,
-  //       },
-  //     ],
-  //     selectedShort: "",
-  //     shorts_: [
-  //       this.shortProductsIncrease(),
-  //       this.shortProductsDescending(),
-  //       this.shortProductsByTitile(),
-  //     ],
-  //   };
-  // },
+  data() {
+    return {
+      selected: "По умолчанию",
+      options: [
+        {
+          title: "По умолчанию",
+          short: 0,
+        },
+        {
+          title: "По возрастанию",
+          value: 1,
+        },
+        {
+          title: "По убыванию",
+          value: 2,
+        },
+        {
+          title: "По названию",
+          value: 3,
+        },
+      ],
+    };
+  },
   methods: {
     ...mapMutations(["deleteProductCard", "shortProductsIncrease"]),
     deleteProduct(index) {
@@ -80,13 +80,23 @@ export default {
     shortProductsByTitile() {
       this.productCards.sort((a, b) => (a.title < b.title ? 1 : -1));
     },
-    // selectShort(option) {
-    //   if (option.value >= 1) {
-    //     this.shorts_[option.value];
-    //   } else {
-    //     console.log("сортировка по умолчанию");
-    //   }
-    // },
+    shorting(option) {
+      this.selected = option.title;
+      switch (option.value) {
+        case 0:
+          console.log("По умолчанию!");
+          break;
+        case 1:
+          this.shortProductsIncrease();
+          break;
+        case 2:
+          this.shortProductsDescending();
+          break;
+        case 3:
+          this.shortProductsByTitile();
+          break;
+      }
+    },
   },
   computed: {
     ...mapState(["productList"]),
