@@ -56,13 +56,20 @@
           class="form__input"
           placeholder="Введите цену"
           @blur="priceBlured = true"
-          :class="{ form__input__error: priceBlured && isEmptyPrice }"
+          :class="{
+            form__input__error: priceBlured && isEmptyPrice,
+          }"
         />
         <span v-if="priceBlured && isEmptyPrice">Это поле обязательно!</span>
+        <span v-if="isEmptyPrice == false && isNotNegativeNumber == true"
+          >Цена не может быть отрицательной</span
+        >
       </div>
       <button
         :disabled="isEmptyForm"
-        :class="{ form__button__allowed: isEmptyForm === false }"
+        :class="{
+          form__button__allowed: isEmptyForm == false,
+        }"
         class="form__button"
       >
         Добавить товар
@@ -97,6 +104,7 @@ export default {
     },
   },
   computed: {
+  
     isEmptyTitle() {
       return this.title == "";
     },
@@ -108,7 +116,7 @@ export default {
     },
     isEmptyForm() {
       return (this.price && this.link && this.title) == "";
-    },
+    } 
   },
 };
 </script>
@@ -117,10 +125,12 @@ $margin: 16px;
 $background: #fffefb;
 $width: 284px;
 .add-product {
+  width: 332px;
   .add-product__form {
     width: 332px;
     margin-right: $margin;
     background: $background;
+    position: fixed;
     box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04),
       0px 6px 10px rgba(0, 0, 0, 0.02);
     border-radius: 4px;
@@ -196,6 +206,8 @@ $width: 284px;
     .form__input__error {
       margin-bottom: $margin * 0.25;
       border: 1px solid #ff8484;
+      transition-duration: 0.6s;
+      outline-color: #ff8484;
     }
     .form__button {
       background: #eeeeee;
@@ -217,6 +229,31 @@ $width: 284px;
     .form__button__allowed {
       background: #7bae73;
       color: #ffffff;
+      transition-duration: 1s;
+      font-style: normal;
+      font-weight: 600;
+    }
+    .form__button__allowed:hover {
+      background: #6b69ff;
+      transition-duration: 1s;
+    }
+  }
+}
+@media (max-width: 768px) {
+  .add-product {
+    width: 270px;
+    .add-product__form {
+      width: 270px;
+      position: static;
+      .form__input {
+        width: calc($width - 50px);
+      }
+      .form__texarea {
+        width: calc($width - 50px);
+      }
+      .form__button {
+        width: calc($width - 50px);
+      }
     }
   }
 }

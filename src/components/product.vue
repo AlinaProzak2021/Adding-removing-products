@@ -5,13 +5,13 @@
     </div>
     <div class="product__name">{{ title }}</div>
     <div class="product__description">{{ description }}</div>
-    <div class="product__price">{{ price }} руб. </div>
+    <div class="product__price">{{ price }} руб.</div>
   </div>
 </template>
 <script>
 export default {
   name: "product-item",
-  props: ["id","title", "link", "description", "price"],
+  props: ["id", "title", "link", "description", "price"],
   data() {
     return {};
   },
@@ -20,13 +20,13 @@ export default {
 <style lang="scss" scoped>
 $margin: 16px;
 .product {
-  width: 100%;
+  width: 332px;
   background: #fffefb;
   box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.04),
     0px 6px 10px rgba(0, 0, 0, 0.02);
   border-radius: 4px;
   color: #3f3f3f;
-
+  cursor: pointer;
   .product__image {
     width: 100%;
     height: 200px;
@@ -61,6 +61,17 @@ $margin: 16px;
     line-height: 30px;
     margin-left: $margin;
     padding-bottom: 24px;
+  }
+}
+@media (max-width: 1024px) {
+  .product {
+    width: 300px;
+  }
+}
+@media (max-width: 768px) {
+  .product {
+    width: 260px;
+    margin: 0 auto; 
   }
 }
 </style>

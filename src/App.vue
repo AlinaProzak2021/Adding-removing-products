@@ -14,6 +14,11 @@ export default {
 </script>
 <style lang ="scss">
 $font-stack: "Source Sans Pro", sans-serif;
+body,
+html {
+  width: 100%;
+  height: 100%;
+}
 #app {
   font-family: $font-stack;
   width: 100%;

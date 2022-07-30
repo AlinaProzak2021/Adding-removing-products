@@ -1,30 +1,37 @@
 <template>
   <div class="main-page">
-    <div class="main-page__content">
-      <div class="main-page__header">
-        <div class="main-page__title">Добавление товара</div>
-        <div class="main-page__sort">
-          <selectShort
-            :options="options"
-            @select="shorting"
-            :selected="selected"
-          ></selectShort>
-        </div>
+    <div class="main-page__header">
+      <div class="main-page__title">Добавление товара</div>
+      <div class="main-page__select">
+        <selectShort
+          :options="options"
+          @select="shorting"
+          :selected="selected"
+        ></selectShort>
       </div>
-      <div class="main-page__add-new-product">
+    </div>
+    <div class="main-page__content">
+      <div class="main-page__form-add">
         <formAdd></formAdd>
-        <ul class="main-page__product-list">
-          <li v-for="(product, index) in productCards" :key="index">
-            <div class="delete__product" @click="deleteProduct(index)">
-              <img src="./../../resources/delete.png" alt="" />
-            </div>
-            <product
-              :title="product.title"
-              :link="product.link"
-              :description="product.description"
-              :price="product.price"
-            ></product>
-          </li>
+      </div>
+      <div class="main-page__product-list">
+        <ul>
+          <TransitionGroup name="list" tag="ul">
+            <li v-for="(product, index) in productCards" :key="index">
+              <div
+                class="product-list__delete-product"
+                @click="deleteProduct(index)"
+              >
+                <img src="./../../resources/deleteBox.png" alt="" />
+              </div>
+              <product
+                :title="product.title"
+                :link="product.link"
+                :description="product.description"
+                :price="product.price"
+              ></product>
+            </li>
+          </TransitionGroup>
         </ul>
       </div>
     </div>
@@ -108,56 +115,92 @@ export default {
 </script>
 <style lang="scss" scoped>
 $margin: 16px;
-
 .main-page {
   width: 100%;
-  .main-page__content {
-    width: 95%;
+  height: 100%;
+  .main-page__header {
+    width: 96%;
     margin: 0 auto;
-    .main-page__header {
-      display: flex;
+    height: 68px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $margin;
+    .main-page__title {
+      font-weight: 600;
+      font-size: 28px;
+      line-height: 35px;
       margin-top: $margin * 2;
-      height: 36px;
-      margin-bottom: $margin;
-      justify-content: space-between;
-      .main-page__title {
-        font-weight: 600;
-        font-size: 28px;
-        line-height: 35px;
-        margin-left: $margin * 2;
-      }
-      select {
-        width: 121.49px;
-        height: 100%;
-        background: #fffefb;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-        border-radius: 4px;
-        border: none;
-        color: #b4b4b4;
-        outline-color: #6b69ff;
-      }
     }
+    .main-page__select {
+      margin-top: $margin * 2;
+    }
+  }
+  .main-page__content {
+    display: flex;
+    justify-content: space-between;
+    width: 96%;
 
-    .main-page__add-new-product {
-      display: flex;
+    margin: 0 auto;
+    .main-page__form-add {
+      width: 332px;
     }
-    ul {
-      list-style: none;
+    .main-page__product-list {
+      width: 100vw;
+      ul {
+        padding: 0;
+        display: flex;
+        list-style: none;
+        flex-wrap: wrap;
+        .product-list__delete-product {
+          background: #ff8484;
+          box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+          border-radius: 10px;
+          width: 32px;
+          height: 32px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          right: -10px;
+          top: -8px;
+          img {
+            width: 14px;
+            height: 16px;
+          }
+        }
+        .list-move,
+        .list-enter-active,
+        .list-leave-active {
+          transition: all 1s ease;
+        }
+        .list-enter-from,
+        .list-leave-to {
+          opacity: 0;
+          transform: translateX(40px);
+        }
+        .list-leave-active {
+          position: absolute;
+        }
+        li {
+          position: relative;
+          margin-left: $margin;
+          margin-bottom: $margin;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 768px) {
+  .main-page__content {
+    flex-direction: column;
+    justify-content: center;
+    .main-page__form-add {
+      margin: 0 auto;
+      width: 270px;
+      margin-bottom: $margin * 1.5;
+    }
+    .main-page__product-list {
       width: 100%;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: $margin;
-      justify-items: stretch;
-    }
-    li {
-      margin-bottom: $margin;
-      margin-right: $margin;
-      position: relative;
-    }
-    .delete__product {
-      position: absolute;
-      right: -20px;
-      top: -8px;
     }
   }
 }
